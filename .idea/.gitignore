@@ -1,0 +1,10 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Zeppelin ignored files
+/ZeppelinRemoteNotebooks/
+
+# macOS
+.DS_Store
+
+/out

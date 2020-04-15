@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="lab">
+    <output-path>$PROJECT_DIR$/out/artifacts/lab</output-path>
+    <root id="archive" name="lab.jar">
+      <element id="module-output" name="bigdata-lab" />
+    </root>
+  </artifact>
+</component>
