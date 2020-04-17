@@ -1,4 +1,5 @@
 package WordCount;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -12,6 +13,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
+
+//import org.apache.hadoop.io.IntWritable;
+//import org.apache.hadoop.io.LongWritable;
+//import org.apache.hadoop.io.Text;
+//import org.apache.hadoop.mapreduce.Job;
+//import org.apache.hadoop.mapreduce.Mapper;
+//import org.apache.hadoop.mapreduce.Reducer;
 
 public class Main {
     public static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
@@ -45,15 +53,14 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-
         Job job = new Job(new Configuration(), "WordCount");
         job.setJarByClass(Main.class);
         job.setMapperClass(WordCountMapper.class);
         job.setReducerClass(WordCountReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        FileInputFormat.addInputPath(job, new Path("test/wordcount_input"));
+        FileOutputFormat.setOutputPath(job, new Path("test/wordcount_output"));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
