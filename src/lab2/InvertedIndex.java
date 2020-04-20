@@ -85,7 +85,7 @@ public class InvertedIndex {
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             int sum = 0;
             StringBuilder valueBuilder = new StringBuilder();
-            List<String> allFiles = new ArrayList<String>();
+            List<String> allFiles = new ArrayList<>();
             for (Text val : values) {
                 sum += Integer.parseInt(val.toString().split("#")[1]);
                 allFiles.add(val.toString());

@@ -102,8 +102,8 @@ public class MapreduceTest {
     public static class Test3_Reducer extends Reducer<Text, Text, Text, Text> {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            List<String> chs = new ArrayList<String>();
-            List<String> fas = new ArrayList<String>();
+            List<String> chs = new ArrayList<>();
+            List<String> fas = new ArrayList<>();
             for (Text value : values) {
                 String[] val = value.toString().split(";");
                 if (val[0].equals("p")) {
