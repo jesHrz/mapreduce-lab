@@ -1,6 +1,5 @@
 package lab2;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -42,10 +41,9 @@ public class InvertedIndex {
             String[] _path = split.getPath().toString().split("/");
             fileName = _path[_path.length - 1];
 
-            Configuration config = context.getConfiguration();
-            URI[] files = Job.getInstance(config).getCacheFiles();
-            stopWords = new TreeSet<String>();
+            URI[] files = Job.getInstance(context.getConfiguration()).getCacheFiles();
             String line;
+            stopWords = new TreeSet<String>();
             for (URI file : files) {
                 Path path = new Path(file.getPath());
                 BufferedReader in = new BufferedReader(new FileReader(path.getName()));

@@ -69,9 +69,10 @@ public class HBaseTest {
     */
     public void Drop(String tableName) throws IOException {
         Admin admin = connection.getAdmin();
-        HTableDescriptor descriptor = new HTableDescriptor(TableName.valueOf(tableName));
+        HTableDescriptor descriptor = admin.getTableDescriptor(TableName.valueOf(tableName));
         admin.disableTable(TableName.valueOf(tableName));
         admin.deleteTable(TableName.valueOf(tableName));
+//        System.out.println("233");
         admin.createTable(descriptor);
     }
 
@@ -88,7 +89,8 @@ public class HBaseTest {
         return cnt;
     }
 
-    /*创建表，参数 tableName 为表的名称，字符串数组 fields 为存储记录各个字段名称的数组。 要求当 HBase 已经存在名为 tableName 的表的时候，先删除原有的表，然后再创建新的表。*/
+    /*创建表，参数 tableName 为表的名称，字符串数组 fields 为存储记录各个字段名称的数组。 要求当
+      HBase 已经存在名为 tableName 的表的时候，先删除原有的表，然后再创建新的表。*/
     public void CreateTable(String tableName, String[] fields) throws IOException {
         Admin admin = connection.getAdmin();
         TableName _tableName = TableName.valueOf(tableName);
