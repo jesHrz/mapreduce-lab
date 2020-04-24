@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class PageRank {
+public class PageRank_MapReduce {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         final double PR_init = 1.0;
         final double d = 0.85;
@@ -65,7 +65,6 @@ public class PageRank {
             @Override
             protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
                 String[] split = value.toString().split("\t");
-                System.out.println();
                 String u = split[0];
                 st.add(u);
                 List<String> link = new ArrayList<>();
