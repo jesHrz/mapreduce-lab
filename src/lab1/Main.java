@@ -101,11 +101,11 @@ public class Main {
 //        hdfs_test();
 //        Mapreduct1_test();
 //        MapreduceTest.test1_run();
-//        MapreduceTest.test2_run();
+        MapreduceTest.test2_run();
 //        MapreduceTest.test3_run();
 
 //        MySQL_test();
 //        Redis_test();
-        Mongo_test();
+//        Mongo_test();
     }
 }
