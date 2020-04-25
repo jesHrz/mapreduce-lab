@@ -15,7 +15,8 @@ class KMeans:
             for i in range(m):
                 k = 0
                 for j in range(1, self.n_clusters):
-                    if np.dot(X[i] - self.cluster_centers_[j], X[i] - self.cluster_centers_[j]) < np.dot(X[i] - self.cluster_centers_[k], X[i] - self.cluster_centers_[k]):
+                    if np.dot(X[i] - self.cluster_centers_[j], X[i] - self.cluster_centers_[j])
+                        < np.dot(X[i] - self.cluster_centers_[k], X[i] - self.cluster_centers_[k]):
                         k = j
                 self.labels_[i] = k
             for j in range(self.n_clusters):
@@ -30,7 +31,8 @@ class KMeans:
         for i in range(m):
             k = 0
             for j in range(1, self.n_clusters):
-                if np.dot(X[i] - self.cluster_centers_[j], X[i] - self.cluster_centers_[j]) < np.dot(X[i] - self.cluster_centers_[k], X[i] - self.cluster_centers_[k]):
+                if np.dot(X[i] - self.cluster_centers_[j], X[i] - self.cluster_centers_[j])
+                    < np.dot(X[i] - self.cluster_centers_[k], X[i] - self.cluster_centers_[k]):
                     k = j
             self.labels_[i] = k
 

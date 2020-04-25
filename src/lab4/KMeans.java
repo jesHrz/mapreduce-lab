@@ -189,7 +189,6 @@ public class KMeans {
                         k = i;
                     }
                 }
-                System.err.println(k + "\t" + id);
                 context.write(new IntWritable(k), new IntWritable(id));
             }
         }
