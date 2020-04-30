@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class KMeans {
+    private static final String HADOOP_HOME = System.getenv("HADOOP_HOME");
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
         String input_points = "test/lab4_data/kmeans";
         String base_output = "output/";
@@ -41,6 +42,7 @@ public class KMeans {
     private static class KMeans_Cluster {
         public static void run(String input, String output, int K) throws IOException, ClassNotFoundException, InterruptedException {
             Configuration config = new Configuration();
+            config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
             config.setInt("K", K);
             Job job = new Job(config, "Cluster");
             job.setJarByClass(KMeans_Cluster.class);
@@ -86,6 +88,7 @@ public class KMeans {
     private static class KMeans_Trainer {
         public static void run(String cluster, String input, String output) throws IOException, ClassNotFoundException, InterruptedException {
             Configuration config = new Configuration();
+            config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
             Job job = new Job(config, "Trainer");
             job.setJarByClass(KMeans_Trainer.class);
             job.setMapperClass(KMeans_Mapper.class);
@@ -147,6 +150,7 @@ public class KMeans {
     private static class KMeans_Reviewer {
         public static void run(String cluster, String input, String output) throws IOException, ClassNotFoundException, InterruptedException {
             Configuration config = new Configuration();
+            config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
             Job job = new Job(config, "Reviewer");
             job.setJarByClass(KMeans_Reviewer.class);
             job.setMapperClass(Reviewer_Mapper.class);

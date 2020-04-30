@@ -1,5 +1,6 @@
 package lab2;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -16,8 +17,11 @@ import java.net.URI;
 import java.util.*;
 
 public class InvertedIndex {
+    private static final String HADOOP_HOME = System.getenv("HADOOP_HOME");
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
-        Job job = new Job();
+        Configuration config = new Configuration();
+        config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
+        Job job = new Job(config, "InvertedIndex");
         job.setJarByClass(InvertedIndex.class);
         job.setMapperClass(InvertedIndex.InvertedIndexMapper.class);
         job.setCombinerClass(InvertedIndex.InvertedIndexCombiner.class);
@@ -26,7 +30,7 @@ public class InvertedIndex {
         job.setMapOutputValueClass(Text.class);
         job.addCacheFile(new Path("test/stop_words_eng.txt").toUri());
         FileInputFormat.addInputPath(job, new Path("test/lab2_input"));
-        FileOutputFormat.setOutputPath(job, new Path("output"));
+        FileOutputFormat.setOutputPath(job, new Path("output_lab2"));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 

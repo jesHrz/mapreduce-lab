@@ -15,11 +15,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class NaiveBayesClassifier {
+    private static final String HADOOP_HOME = System.getenv("HADOOP_HOME");
     private static final HashMap<Integer, Integer> mp = new HashMap<>();
     private static int M = 0;
 
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
-        Job job = new Job(new Configuration(), "NaiveBayesTrainer");
+        Configuration config = new Configuration();
+        config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
+        Job job = new Job(config, "NaiveBayesTrainer");
         job.setJarByClass(NaiveBayesClassifier.class);
         job.setMapperClass(NaiveBayes_Mapper.class);
         job.setReducerClass(NaiveBayes_Reducer.class);

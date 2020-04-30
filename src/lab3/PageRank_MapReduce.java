@@ -19,21 +19,18 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class PageRank_MapReduce {
+    private static final String HADOOP_HOME = System.getenv("HADOOP_HOME");
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         final double PR_init = 1.0;
         final double d = 0.85;
         final int max_iteration = 10;
 
-        String output = "output";
+        String output = "output_lab3/";
         GraphBuilder.run("test/lab3_input", output + 0, PR_init);
         for (int i = 0; i < max_iteration; ++i) {
-            PageRankIterator.run(output + i, output + (i + 1), GraphBuilder.N, d);
-            Path path = new Path(output + i);
-            path.getFileSystem(new Configuration()).delete(path, true);
+            PageRankIterator.run(output + "output" + i, output + "output" + (i + 1), GraphBuilder.N, d);
         }
         RankViewer.run(output + max_iteration, output);
-        Path path = new Path(output + max_iteration);
-        path.getFileSystem(new Configuration()).delete(path, true);
     }
 
     private static class GraphBuilder {
@@ -42,6 +39,7 @@ public class PageRank_MapReduce {
 
         public static void run(String input, String output, double PR_init) throws InterruptedException, IOException, ClassNotFoundException {
             Configuration config = new Configuration();
+            config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
             config.setDouble("PR_init", PR_init);
             Job job = new Job(config, "GraphBuilder");
             job.setJarByClass(GraphBuilder.class);
@@ -94,6 +92,7 @@ public class PageRank_MapReduce {
     private static class PageRankIterator {
         public static void run(String input, String output, int N, double d) throws IOException, ClassNotFoundException, InterruptedException {
             Configuration config = new Configuration();
+            config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
             config.setInt("N", N);
             config.setDouble("d", d);
             Job job = new Job(config, "PageRankIterator");
@@ -151,7 +150,9 @@ public class PageRank_MapReduce {
 
     private static class RankViewer {
         public static void run(String input, String output) throws InterruptedException, IOException, ClassNotFoundException {
-            Job job = new Job(new Configuration(), "RankViewer");
+            Configuration config = new Configuration();
+            config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
+            Job job = new Job(config, "RankViewer");
             job.setJarByClass(RankViewer.class);
             job.setMapperClass(RankViewerMapper.class);
             job.setReducerClass(RankViewerReducer.class);

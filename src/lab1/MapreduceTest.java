@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapreduceTest {
+    private static final String HADOOP_HOME = System.getenv("HADOOP_HOME");
     public static void test1_run() throws IOException, InterruptedException, ClassNotFoundException {
-        Job job = new Job(new Configuration(), "MapreduceTest_1");
+        Configuration config = new Configuration();
+        config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
+        Job job = new Job(config, "MapreduceTest_1");
         job.setJarByClass(MapreduceTest.class);
         job.setMapperClass(MapreduceTest.Test1_Mapper.class);
         job.setReducerClass(MapreduceTest.Test1_Reducer.class);
@@ -29,7 +32,9 @@ public class MapreduceTest {
     }
 
     public static void test2_run() throws IOException, InterruptedException, ClassNotFoundException {
-        Job job = new Job(new Configuration(), "MapreduceTest_2");
+        Configuration config = new Configuration();
+        config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
+        Job job = new Job(config, "MapreduceTest_2");
         job.setJarByClass(MapreduceTest.class);
         job.setMapperClass(MapreduceTest.Test2_Mapper.class);
         job.setReducerClass(MapreduceTest.Test2_Reducer.class);
@@ -43,7 +48,9 @@ public class MapreduceTest {
     }
 
     public static void test3_run() throws IOException, InterruptedException, ClassNotFoundException {
-        Job job = new Job(new Configuration(), "MapreduceTest_3");
+        Configuration config = new Configuration();
+        config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
+        Job job = new Job(config, "MapreduceTest_3");
         job.setJarByClass(MapreduceTest.class);
         job.setMapperClass(MapreduceTest.Test3_Mapper.class);
         job.setReducerClass(MapreduceTest.Test3_Reducer.class);

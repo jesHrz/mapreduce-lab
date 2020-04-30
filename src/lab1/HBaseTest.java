@@ -72,7 +72,6 @@ public class HBaseTest {
         HTableDescriptor descriptor = admin.getTableDescriptor(TableName.valueOf(tableName));
         admin.disableTable(TableName.valueOf(tableName));
         admin.deleteTable(TableName.valueOf(tableName));
-//        System.out.println("233");
         admin.createTable(descriptor);
     }
 
