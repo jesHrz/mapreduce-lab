@@ -17,6 +17,7 @@ import java.util.List;
 
 public class MapreduceTest {
     private static final String HADOOP_HOME = System.getenv("HADOOP_HOME");
+
     public static void test1_run() throws IOException, InterruptedException, ClassNotFoundException {
         Configuration config = new Configuration();
         config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));

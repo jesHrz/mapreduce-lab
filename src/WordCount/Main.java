@@ -22,6 +22,18 @@ import java.util.StringTokenizer;
 //import org.apache.hadoop.mapreduce.Reducer;
 
 public class Main {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+        Job job = new Job(new Configuration(), "WordCount");
+        job.setJarByClass(Main.class);
+        job.setMapperClass(WordCountMapper.class);
+        job.setReducerClass(WordCountReducer.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
+        FileInputFormat.addInputPath(job, new Path("test/wordcount_input"));
+        FileOutputFormat.setOutputPath(job, new Path("test/wordcount_output"));
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
+    }
+
     public static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
         private static final IntWritable one = new IntWritable(1);
         private Text word = new Text();
@@ -50,17 +62,5 @@ public class Main {
             result.set(sum);
             context.write(key, result);
         }
-    }
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-        Job job = new Job(new Configuration(), "WordCount");
-        job.setJarByClass(Main.class);
-        job.setMapperClass(WordCountMapper.class);
-        job.setReducerClass(WordCountReducer.class);
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
-        FileInputFormat.addInputPath(job, new Path("test/wordcount_input"));
-        FileOutputFormat.setOutputPath(job, new Path("test/wordcount_output"));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }

@@ -14,29 +14,31 @@ import org.apache.hadoop.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class PageRank_MapReduce {
     private static final String HADOOP_HOME = System.getenv("HADOOP_HOME");
+
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+        if (args.length < 2) {
+            System.err.println("two args needed: <input_path> <output_path>");
+            System.exit(0);
+        }
         final double PR_init = 1.0;
         final double d = 0.85;
         final int max_iteration = 10;
 
-        String output = "output_lab3/";
-        GraphBuilder.run("test/lab3_input", output + 0, PR_init);
+        String input_path = "test/lab3_input/";
+        String output_path = "output_lab3/";
+        GraphBuilder.run(input_path, output_path + "output" + 0, PR_init);
         for (int i = 0; i < max_iteration; ++i) {
-            PageRankIterator.run(output + "output" + i, output + "output" + (i + 1), GraphBuilder.N, d);
+            PageRankIterator.run(output_path + "output" + i, output_path + "output" + (i + 1), d);
         }
-        RankViewer.run(output + max_iteration, output);
+        RankViewer.run(output_path + "output" + max_iteration, output_path + "result");
     }
 
     private static class GraphBuilder {
-        private static final Set<String> st = new TreeSet<>();
-        public static int N = 0;
-
         public static void run(String input, String output, double PR_init) throws InterruptedException, IOException, ClassNotFoundException {
             Configuration config = new Configuration();
             config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
@@ -64,22 +66,12 @@ public class PageRank_MapReduce {
             protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
                 String[] split = value.toString().split("\t");
                 String u = split[0];
-                st.add(u);
-                List<String> link = new ArrayList<>();
-                for (String v : split[1].split(",")) {
-                    link.add(v);
-                    st.add(v);
-                }
+                List<String> link = new ArrayList<>(Arrays.asList(split[1].split(",")));
                 context.write(new Text(u), new Text(PR_init + "\t" + StringUtils.join(",", link)));
             }
         }
 
         private static class GraphBuilderReducer extends Reducer<Text, Text, Text, Text> {
-            @Override
-            protected void setup(Context context) {
-                N = st.size();
-            }
-
             @Override
             protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
                 for (Text value : values) {
@@ -90,10 +82,9 @@ public class PageRank_MapReduce {
     }
 
     private static class PageRankIterator {
-        public static void run(String input, String output, int N, double d) throws IOException, ClassNotFoundException, InterruptedException {
+        public static void run(String input, String output, double d) throws IOException, ClassNotFoundException, InterruptedException {
             Configuration config = new Configuration();
             config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
-            config.setInt("N", N);
             config.setDouble("d", d);
             Job job = new Job(config, "PageRankIterator");
             job.setJarByClass(PageRankIterator.class);
@@ -121,12 +112,10 @@ public class PageRank_MapReduce {
         }
 
         private static class PageRankIteratorReducer extends Reducer<Text, Text, Text, Text> {
-            private int N;
             private double d;
 
             @Override
             protected void setup(Context context) {
-                N = context.getConfiguration().getInt("N", 0);
                 d = context.getConfiguration().getDouble("d", 0.85);
             }
 

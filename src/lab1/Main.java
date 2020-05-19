@@ -14,7 +14,8 @@ import java.util.Map;
 public class Main {
     public static void hdfs_test() throws IOException {
         HDFSTest hdfs = new HDFSTest("hdfs://localhost:9000");
-//        hdfs.CopyFromLocal("test/hello.txt", "/jeshrz/hello.txt");
+//        按需取消注释
+//        hdfs.CopyFromLocal("test/hello.txt", "hello.txt");
 //        hdfs.CopyToLocal("/jeshrz/hello.txt", "download.txt");
 //        hdfs.Cat("/jeshrz/hello.txt");
 //        hdfs.OneFileStatus("/jeshrz/hello.txt");
@@ -25,10 +26,10 @@ public class Main {
 //        hdfs.DeleteDir("/jeshrz");
 //        hdfs.DeleteFile("/test/hrz.txt");
 //        hdfs.Cat("test.txt");
-//        hdfs.AppendFromLocal("test/hello.txt", "test.txt", 0);
+        hdfs.AppendFromLocal("test/hello.txt", "hello.txt", 0);
 //        hdfs.Cat("test.txt");
 //        hdfs.Move("test.txt.bak", "test.txt");
-//        hdfs.Cat("/jeshrz/hello.txt");
+        hdfs.Cat("hello.txt");
 //        hdfs.Cat("/jeshrz/hrz.txt");
     }
 
@@ -86,6 +87,7 @@ public class Main {
     public static void Mongo_test() {
         MongoClient client = new MongoClient("localhost", 27017);
         MongoCollection<Document> collection = client.getDatabase("student").getCollection("student");
+
         Document doc = new Document("name", "scofield").append("score", new Document("English", 45).append("Math", 89).append("Computer", 100));
         List<Document> docs = new ArrayList<>();
         docs.add(doc);
@@ -98,7 +100,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException, SQLException {
 //        hbase_test();
-//        hdfs_test();
+        hdfs_test();
 //        Mapreduct1_test();
 //        MapreduceTest.test1_run();
 //        MapreduceTest.test2_run();

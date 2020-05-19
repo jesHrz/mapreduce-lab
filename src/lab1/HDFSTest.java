@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class HDFSTest {
     private FileSystem fileSystem;
     private Configuration conf;
+
     public HDFSTest(String path) {
         conf = new Configuration();
         conf.set("fs.defaultFS", path);
@@ -49,7 +50,7 @@ public class HDFSTest {
             String input = (new Scanner(System.in)).next();
             if (input.charAt(0) == 'y' || input.charAt(0) == 'Y') override = true;
         }
-        if(!exists || override) {
+        if (!exists || override) {
             System.out.printf("HDFS %s from local \"%s\" to remote \"%s\"\n", exists ? "override" : "write", local, remote);
             fileSystem.copyFromLocalFile(false, true, localPath, remotePath);
         } else {
@@ -61,7 +62,7 @@ public class HDFSTest {
     /*shell: hadoop fs -get <remote> <local>*/
     public void CopyToLocal(String remote, String local) throws IOException {
         System.out.printf("HDFS download remote file \"%s\" to local \"%s\"\n", remote, local);
-        for(File localFile = new File(local); localFile.exists(); localFile = new File(local)) {
+        for (File localFile = new File(local); localFile.exists(); localFile = new File(local)) {
             int index = local.lastIndexOf('.');
             local = local.substring(0, index) + " new" + local.substring(index);
         }
@@ -73,17 +74,17 @@ public class HDFSTest {
     public void Cat(String remote) throws IOException {
         System.out.printf("HDFS cat remote file \"%s\"\n", remote);
         Path remotePath = new Path(remote);
-        if(!fileSystem.exists(remotePath)) {
+        if (!fileSystem.exists(remotePath)) {
             System.out.printf("%s: No such file or dir\n", remote);
             return;
         }
-        if(!fileSystem.getFileStatus(remotePath).isFile()) {
+        if (!fileSystem.getFileStatus(remotePath).isFile()) {
             System.out.printf("%s: Not a file\n", remote);
             return;
         }
         FSDataInputStream contents = fileSystem.open(remotePath);
         BufferedReader buffer = new BufferedReader(new InputStreamReader(contents));
-        for(String line = buffer.readLine(); line != null; line = buffer.readLine()) {
+        for (String line = buffer.readLine(); line != null; line = buffer.readLine()) {
             System.out.println(line);
         }
     }
@@ -93,12 +94,12 @@ public class HDFSTest {
     public void OneFileStatus(String remote) throws IOException {
         System.out.printf("HDFS read file status from remote \"%s\"\n\n", remote);
         Path remotePath = new Path(remote);
-        if(!fileSystem.exists(remotePath)) {
+        if (!fileSystem.exists(remotePath)) {
             System.out.printf("%s: No such file or dir\n", remote);
             return;
         }
         FileStatus status = fileSystem.getFileStatus(remotePath);
-        if(!status.isFile()) {
+        if (!status.isFile()) {
             System.out.printf("%s: Not a file\n", remote);
             return;
         }
@@ -115,7 +116,7 @@ public class HDFSTest {
     public void AllFileStatus(String remote) throws IOException {
         System.out.printf("HDFS read all file status from remote \"%s\"\n\n", remote);
         RemoteIterator<LocatedFileStatus> it = fileSystem.listFiles(new Path(remote), true);
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             FileStatus status = it.next();
             System.out.printf("*\tPath: %s\n", status.getPath());
             System.out.printf("\tPermission: %s\n", status.getPermission());
@@ -137,11 +138,11 @@ public class HDFSTest {
     public void DeleteFile(String remote) throws IOException {
         System.out.printf("HDFS delete file at remote \"%s\"\n", remote);
         Path remotePath = new Path(remote);
-        if(!fileSystem.exists(remotePath)) {
+        if (!fileSystem.exists(remotePath)) {
             System.out.printf("%s: No such file\n", remote);
             return;
         }
-        if(!fileSystem.getFileStatus(remotePath).isFile()) {
+        if (!fileSystem.getFileStatus(remotePath).isFile()) {
             System.out.printf("%s: Not a file\n", remote);
             return;
         }
@@ -161,19 +162,19 @@ public class HDFSTest {
         System.out.printf("HDFS delete dir \"%s\"\n", remote);
         Path remotePath = new Path(remote);
 
-        if(!fileSystem.exists(remotePath)) {
+        if (!fileSystem.exists(remotePath)) {
             System.out.printf("%s: No such dir\n", remote);
             return;
         }
-        if(!fileSystem.getFileStatus(remotePath).isDirectory()) {
+        if (!fileSystem.getFileStatus(remotePath).isDirectory()) {
             System.out.printf("%s: Not a dir\n", remote);
             return;
         }
         RemoteIterator<LocatedFileStatus> it = fileSystem.listFiles(remotePath, false);
-        if(it.hasNext()) {
+        if (it.hasNext()) {
             System.out.printf("%s has other files, delete all of them? ", remote);
             String input = (new Scanner(System.in)).next();
-            if(input.charAt(0) == 'y' || input.charAt(0) == 'Y')    fileSystem.delete(remotePath, true);
+            if (input.charAt(0) == 'y' || input.charAt(0) == 'Y') fileSystem.delete(remotePath, true);
         } else {
             fileSystem.delete(remotePath, false);
         }
@@ -187,11 +188,11 @@ public class HDFSTest {
         Path remotePath = new Path(remote);
         Path localPath = new Path(local);
 
-        if(!fileSystem.exists(remotePath)) {
+        if (!fileSystem.exists(remotePath)) {
             fileSystem.create(remotePath).close();
         }
 
-        switch(pos) {
+        switch (pos) {
             case 0: // 追加到结尾
                 FileInputStream in = new FileInputStream(local);
                 OutputStream out = fileSystem.append(remotePath);
@@ -213,15 +214,15 @@ public class HDFSTest {
         System.out.printf("HDFS move file from remote \"%s\" to remote \"%s\"\n", remoteSrc, remoteDest);
         Path srcPath = new Path(remoteSrc);
         Path destPath = new Path(remoteDest);
-        if(!fileSystem.exists(srcPath)) {
+        if (!fileSystem.exists(srcPath)) {
             System.out.printf("%s: No such file or dir\n", remoteSrc);
             return;
         }
-        if(!fileSystem.getFileStatus(srcPath).isFile()) {
+        if (!fileSystem.getFileStatus(srcPath).isFile()) {
             System.out.printf("%s: Not a file\n", remoteSrc);
             return;
         }
-        if(fileSystem.exists(destPath)) {
+        if (fileSystem.exists(destPath)) {
             System.out.printf("%s: Already exists\n", remoteDest);
             return;
         }

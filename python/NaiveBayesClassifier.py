@@ -28,6 +28,7 @@ def fit(feature, label):
                 p[i][j][k] /= y[k]
     for i in range(max_y + 1):
         y[i] /= n
+        print("#%d\t%.10f" % (i, y[i]))
     for i in range(m):
         for j in range(max_x + 1):
             for k in range(max_y + 1):
@@ -51,6 +52,6 @@ def classify(feature, prob, y):
 
 
 if __name__ == "__main__":
-    feature, label = load_data("test/lab4_data/trainingdata/training_data.txt")
+    feature, label = load_data("test/lab4_data/nb/training_data.txt")
     p, y = fit(feature, label)
 

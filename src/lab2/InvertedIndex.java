@@ -18,6 +18,7 @@ import java.util.*;
 
 public class InvertedIndex {
     private static final String HADOOP_HOME = System.getenv("HADOOP_HOME");
+
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
         Configuration config = new Configuration();
         config.addResource(new Path(HADOOP_HOME + "/etc/hadoop/core-site.xml"));
@@ -62,7 +63,7 @@ public class InvertedIndex {
 
         @Override
         protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-            String[] words = value.toString().trim().split("\\W");
+            String[] words = value.toString().trim().split("\\W");  // 不能用空格来分割 可能存在特殊符号 影响结果
             for (String word : words) {
                 word = word.toLowerCase();
                 if (!stopWords.contains(word) && !word.equals("")) context.write(new Text(fileName + "#" + word), one);
@@ -78,7 +79,7 @@ public class InvertedIndex {
                 sum += Integer.parseInt(val.toString());
             }
             String[] splits = key.toString().split("#");
-            context.write(new Text(splits[1]), new Text(splits[0] + "#" + Integer.toString(sum)));
+            context.write(new Text(splits[1]), new Text(splits[0] + "#" + sum));
         }
     }
 

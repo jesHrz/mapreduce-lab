@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 public class KMeans {
     private static final String HADOOP_HOME = System.getenv("HADOOP_HOME");
+
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
         String input_points = "test/lab4_data/kmeans";
         String base_output = "output/";
