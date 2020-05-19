@@ -103,5 +103,18 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../bigdata/spark-2.4.5/jars" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../../bigdata/spark-2.4.5/jars" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/spark-2.4.5/jars" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/spark-2.4.5/jars" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
   </component>
 </module>
