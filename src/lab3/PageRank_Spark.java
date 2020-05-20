@@ -37,7 +37,7 @@ public class PageRank_Spark {
         final double PR_init = args.length >= 5 ? Double.parseDouble(args[4]) : 1.0;
 
         SparkConf config = new SparkConf().setAppName("PageRank_Spark");
-        config.setMaster("local[*]");
+//        config.setMaster("local[*]");
         JavaSparkContext spark = new JavaSparkContext(config);
         JavaRDD<String> lines = spark.textFile(input);
 

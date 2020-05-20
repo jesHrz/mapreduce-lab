@@ -21,10 +21,6 @@ public class PageRank_MapReduce {
     private static final String HADOOP_HOME = System.getenv("HADOOP_HOME");
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-        if (args.length < 2) {
-            System.err.println("two args needed: <input_path> <output_path>");
-            System.exit(0);
-        }
         final double PR_init = 1.0;
         final double d = 0.85;
         final int max_iteration = 10;
@@ -79,6 +75,7 @@ public class PageRank_MapReduce {
                 }
             }
         }
+        // u pr link
     }
 
     private static class PageRankIterator {
