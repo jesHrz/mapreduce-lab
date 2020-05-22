@@ -37,8 +37,26 @@ public class PageRank_Spark {
         final double PR_init = args.length >= 5 ? Double.parseDouble(args[4]) : 1.0;
 
         SparkConf config = new SparkConf().setAppName("PageRank_Spark");
-//        config.setMaster("local[*]");
+        config.setMaster("local[*]");
         JavaSparkContext spark = new JavaSparkContext(config);
+
+        /*
+        用到的数据结构:
+            两个rdd:
+                links: 记录拓扑结构, 邻接表  key 点 value link
+                ranks: 当前每个url的pagerank
+            一个临时rdd
+                contributes: 记录每个url所得到的贡献值, 一轮迭代结束以后做 reduce, 更新ranks
+
+        * 1. 构造邻接表, 初始化pagerank
+        *   按 '\t' 分割字符串, 前者是source, 后者是链接出的url, 按照逗号分割可以得到links
+        * 2. 迭代计算每个点的pagerank
+        *   邻接表和page表做"自然连接" (join)
+        *
+        * 3. 统计最终的结果,按pagerank从大到小按格式输出
+        *   先将 key value 交换, 按照key降序排序, 再将 key value 交换, 按格式输出
+        *
+         */
         JavaRDD<String> lines = spark.textFile(input);
 
         // 按\t分割得到url和neighbor url,再把neighbor url按,分割
@@ -48,9 +66,11 @@ public class PageRank_Spark {
         });
         // 初始化rank为1.0
         JavaPairRDD<String, Double> ranks = links.mapValues(rs -> PR_init);
+
+
         for (int i = 0; i < max_iteration; ++i) {
             JavaPairRDD<String, Double> contributes =
-                    links.join(ranks).values().flatMapToPair(s -> {
+                    links.join(ranks).values().flatMapToPair(s -> {         // tuple<>
                         // 邻接表的大小
                         int size = Iterables.size(s._1());
                         List<Tuple2<String, Double>> ret = new ArrayList<>();
