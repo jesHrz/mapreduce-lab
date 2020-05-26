@@ -1,4 +1,4 @@
-package spark.Service;
+package spark.service;
 
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import static org.apache.spark.sql.functions.lit;
 
 
-@Component
+//@Component
 public class Recommend {
     private final String BASE_PATH = "hdfs://localhost:9000/user/jeshrz/";
     private final String DATA_PATH = BASE_PATH + "lab5/data/";
