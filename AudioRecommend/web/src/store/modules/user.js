@@ -40,6 +40,8 @@ const user = {
             history: await get('/history?user=', 8080, payload.user)
           });
           Vue.prototype.$success("Welcome back! " + payload.user);
+        } else {
+          Vue.prototype.$error("No response");
         }
       } catch (err) {
         Vue.prototype.$error(err);

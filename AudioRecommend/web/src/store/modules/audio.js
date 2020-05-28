@@ -5,11 +5,12 @@ const PORT = 3000;
 const audio = {
     namespaced: true,
     state: {
-        song: null,
-        lyric: null,
+        song: {},
+        lyric: [],
         id: 0,
         currentTime: 0,
         duration: 0,
+        lyricIndex: 0,
         audio: {},
         isPlay: false
     },
@@ -32,7 +33,10 @@ const audio = {
         },
         setIsPlay(state, play) {
             state.isPlay = play;
-        }
+        },
+        setLyricIndex(state, value) {
+            state.lyricIndex = value;
+        },
     },
     actions: {
         async setSong(context, id) {
@@ -63,6 +67,14 @@ const audio = {
         },
         setIsPlay(context, play) {
             context.commit('setIsPlay', play);
+        },
+        updateLyricIndex(context, payload) {
+            let that = payload.object;
+            context.commit('setLyricIndex', that.lyricIndex + payload.value);
+            if (that.$refs.playerLyric) {
+                const hight = that.$refs.playerLyricli.clientHeight;
+                that.$refs.playerLyric.scrollTop = (that.lyricIndex - 1) * hight;
+              }
         }
     }
 }

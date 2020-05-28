@@ -5,7 +5,7 @@
       <div class="audio-avatar">
         <img :src="picUrl" />
       </div>
-      <div class="audio-info" @click="drawer=true">
+      <div class="audio-info" @click="showLyric=!showLyric">
         <p>{{ songName }}</p>
         <p>{{ singer }}</p>
         <p>{{ currentTime }} / {{ duration }}</p>
@@ -15,30 +15,31 @@
       </div>
     </div>
 
-    <el-drawer
-      direction="rtl"
-      :visible.sync="drawer"
-      :append-to-body="true"
-      :modal="false"
-      :show-close="false"
-      :with-header="false"
-    >
-      <Player></Player>
-    </el-drawer>
+    <div class="lyricList" :class="showLyric?'show':'none'">
+      <ul class="lyric" ref="playerLyric">
+        <li ref="playerLyricli"></li>
+        <li></li>
+        <li
+          v-for="(l, index) in lyric"
+          :key="index"
+          :class="[index+1===lyricIndex?'active':'']"
+        >{{l.lyr}}</li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import defaultPicUrl from "@/assets/default-cover.svg";
-import Player from "@/components/Player.vue";
 import { mapState, mapActions } from "vuex";
 import { s_2_hs } from "@/utils/tools.js";
 
 export default {
-  components: { Player },
   data: function() {
     return {
-      drawer: false,
+      showLyric: false
     };
   },
   methods: {
@@ -47,7 +48,8 @@ export default {
       "setAudio",
       "setCurrentTime",
       "setDuration",
-      "setIsPlay"
+      "setIsPlay",
+      "updateLyricIndex"
     ]),
     getSongUrl(id) {
       this.setLyric(id);
@@ -56,54 +58,82 @@ export default {
     setPlayStatus() {
       this.$nextTick(() => {
         let audio = document.getElementById("music");
-        if(audio.paused)  {
+        if (audio.paused) {
           audio.play();
           this.setIsPlay(true);
         } else {
           audio.pause();
           this.setIsPlay(false);
         }
-      })
-    },
+      });
+    }
   },
   computed: {
     ...mapState("audio", {
-      song: state => state.song,
-      currentTime: state => {
-        return s_2_hs(state.currentTime);
-      },
+      _currentTime: state => state.currentTime,
       duration: state => {
         return s_2_hs(state.duration);
-      },
-      isPlay: state => state.isPlay
+      }
     }),
+    ...mapState("audio", ["song", "isPlay", "lyric", "lyricIndex"]),
     songName() {
-      if (this.song) {
+      if (Object.prototype.hasOwnProperty.call(
+          this.song,
+          "name"
+        )) {
         return this.song.name;
       } else {
-        return "当前暂未播放歌曲";
+        return "No song";
       }
     },
     songUrl() {
-      if (this.song) {
+      if (Object.prototype.hasOwnProperty.call(
+          this.song,
+          "id"
+        )) {
         return this.getSongUrl(this.song.id);
       } else {
         return "";
       }
     },
     singer() {
-      if (this.song) {
+      if (Object.prototype.hasOwnProperty.call(
+          this.song,
+          "ar"
+        )) {
         return this.song.ar[0].name;
       } else {
-        return "暂无";
+        return "null";
       }
     },
     picUrl() {
-      if (this.song) {
+      if (Object.prototype.hasOwnProperty.call(
+          this.song,
+          "al"
+        )) {
         return this.song.al.picUrl;
       } else {
         return defaultPicUrl;
       }
+    },
+    currentTime() {
+      if (
+        this.lyric.length != 0 &&
+        this.lyric[this.lyricIndex] &&
+        Object.prototype.hasOwnProperty.call(
+          this.lyric[this.lyricIndex],
+          "time"
+        )
+      ) {
+        if (this._currentTime >= this.lyric[this.lyricIndex].time) {
+          this.updateLyricIndex({
+            value: 1,
+            object: this
+          });
+          
+        }
+      }
+      return s_2_hs(this._currentTime);
     }
   },
   mounted() {
@@ -144,7 +174,7 @@ export default {
   display: inline-block;
   /* width: 700px; */
   vertical-align: top;
-  padding: 0 550px 0 10px;
+  padding: 0 540px 0 10px;
 }
 .audio .audio-info p {
   height: 20px;
@@ -168,5 +198,58 @@ export default {
   display: inline-block;
   height: 100%;
   vertical-align: middle;
+}
+
+.audio .lyricList {
+  position: fixed;
+  animation: showList 1s;
+  -webkit-animation: showList 1s;
+  width: 700px;
+  height: 60vh;
+  bottom: 60px;
+  background: #fff;
+  border-top: 1px solid #42b983;
+}
+.audio .lyricList.show {
+  display: block;
+}
+.audio .lyricList.none {
+  display: none;
+}
+.audio .lyricList .close {
+  float: right;
+}
+
+@-webkit-keyframes showList {
+  0% {
+    height: 0;
+  }
+  to {
+    height: 60vh;
+  }
+}
+@keyframes showList {
+  0% {
+    height: 0;
+  }
+  to {
+    height: 60vh;
+  }
+}
+
+.audio .lyric {
+  height: 50vh;
+  overflow-x: scroll;
+  margin: 50px 0;
+}
+.audio .lyric li {
+  height: 20%;
+  line-height: 8vh;
+  color: #373737;
+  font-weight: 400;
+  font-size: 14px;
+}
+.audio .lyric li.active {
+  color: #42b983;
 }
 </style>
