@@ -1,0 +1,57 @@
+<template>
+  <div>
+    <el-dialog title="Who are you?" :visible="currentUser == -1" width="30%" center>
+      <el-input placeholder="User ID" v-model="user" @keydown.enter="entry"></el-input>
+      <span slot="footer">
+        <el-button type="primary" @click="entry">OK</el-button>
+      </span>
+    </el-dialog>
+
+    <div class="recommend">
+      <div class="tip">Daily Top 10</div>
+      <PlayList :data="recommendData"></PlayList>
+    </div>
+
+    <div>
+      <div class="tip">You have listened to the songs of {{ historyData.length }} artists</div>
+      <PlayList :data="historyData"></PlayList>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapState, mapActions, mapGetters } from "vuex";
+import { Loading } from "element-ui";
+import PlayList from "@/components/PlayList.vue";
+export default {
+  name: "Home",
+  components: {PlayList},
+  data() {
+    return {
+      user: "",
+      loading: false,
+    };
+  },
+  methods: {
+    ...mapActions('user', ['login']),
+    entry() {
+      this.loading = Loading.service();
+      this.login(this);
+      // this.$store.dispatch("login", this);
+    }
+  },
+  computed: {
+    ...mapState('user', ["recommendData", "historyData"]),
+    ...mapGetters('user', ['currentUser']),
+  }
+};
+</script>
+
+<style>
+.tip {
+  text-align: left;
+  margin: 20px auto;
+  font-weight: bold;
+  font-size: x-large;
+}
+</style>

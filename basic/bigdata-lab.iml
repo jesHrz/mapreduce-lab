@@ -10,85 +10,76 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/common" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/common" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/common/jdiff" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/common/jdiff" />
         </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/common" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/common" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/hdfs" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/hdfs" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/hdfs/jdiff" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/hdfs/jdiff" />
         </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/hdfs" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/hdfs" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/mapreduce" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/mapreduce" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/mapreduce/jdiff" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/mapreduce/jdiff" />
         </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/mapreduce" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/mapreduce" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/yarn" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/yarn" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/yarn" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/yarn" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/common/lib" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/common/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/common/lib" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/common/lib" />
         </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/common/lib" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/hadoop-2.8.5/share/hadoop/common/lib" recursive="false" type="SOURCES" />
+        <jarDirectory url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/common/lib" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../../bigdata/hadoop-2.8.5/share/hadoop/common/lib" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../bigdata/hbase-2.2.4/lib" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/hbase-2.2.4/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/hbase-2.2.4/lib" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../../bigdata/hbase-2.2.4/lib" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../bigdata/mysql-connector-java-8.0.19.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../bigdata/jedis-3.2.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../bigdata/jedis-3.2.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -97,7 +88,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../bigdata/mongo-java-driver-3.11.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../bigdata/mongo-java-driver-3.11.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -106,14 +97,23 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../bigdata/spark-2.4.5/jars" />
+          <root url="jar://$MODULE_DIR$/../../../bigdata/mysql-connector-java-8.0.19.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../bigdata/spark-2.4.5/jars" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../bigdata/spark-2.4.5/jars" />
+          <root url="file://$MODULE_DIR$/../../../bigdata/spark-2.4.5/jars" />
         </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/spark-2.4.5/jars" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/../../bigdata/spark-2.4.5/jars" recursive="false" type="SOURCES" />
+        <jarDirectory url="file://$MODULE_DIR$/../../../bigdata/spark-2.4.5/jars" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../../bigdata/spark-2.4.5/jars" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
   </component>
