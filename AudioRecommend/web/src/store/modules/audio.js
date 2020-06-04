@@ -24,6 +24,9 @@ const audio = {
         setCurrentTime(state, currentTime) {
             state.currentTime = currentTime;
         },
+        updateCurrentTime(state, currentTime) {
+            state.audio.currentTime = currentTime;
+        },
         setDuration(state, duration) {
             state.duration = duration;
         },
@@ -75,6 +78,9 @@ const audio = {
                 const hight = that.$refs.playerLyricli.clientHeight;
                 that.$refs.playerLyric.scrollTop = (that.lyricIndex - 1) * hight;
               }
+        },
+        updateCurrentTime(context, currentTime) {
+            context.commit('updateCurrentTime', currentTime);
         }
     }
 }

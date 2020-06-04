@@ -1,5 +1,6 @@
 <template>
   <div class="audio">
+    <CProgress ref="prog" :percent="currentPercent" @percentChange="handleProgressChange"></CProgress>
     <audio id="music" :src="songUrl" ref="audio" autoplay></audio>
     <div class="webapp-controls clearfix">
       <div class="audio-avatar">
@@ -35,8 +36,10 @@
 import defaultPicUrl from "@/assets/default-cover.svg";
 import { mapState, mapActions } from "vuex";
 import { s_2_hs } from "@/utils/tools.js";
+import CProgress from "@/components/CProgress.vue";
 
 export default {
+  components: { CProgress },
   data: function() {
     return {
       showLyric: false
@@ -49,8 +52,13 @@ export default {
       "setCurrentTime",
       "setDuration",
       "setIsPlay",
-      "updateLyricIndex"
+      "updateLyricIndex",
+      "updateCurrentTime"
     ]),
+    handleProgressChange(percent) {
+        if(Math.round(this._currentTime / this._duration * 100) != Math.round(percent))
+            this.updateCurrentTime(this._duration * percent / 100);
+    },
     getSongUrl(id) {
       this.setLyric(id);
       return `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
@@ -71,9 +79,7 @@ export default {
   computed: {
     ...mapState("audio", {
       _currentTime: state => state.currentTime,
-      duration: state => {
-        return s_2_hs(state.duration);
-      }
+      _duration: state => state.duration
     }),
     ...mapState("audio", ["song", "isPlay", "lyric", "lyricIndex"]),
     songName() {
@@ -134,6 +140,17 @@ export default {
         }
       }
       return s_2_hs(this._currentTime);
+    },
+    duration() {
+        return s_2_hs(this._duration);
+    },
+    currentPercent() {
+        let newPercent = 0;
+        if(this._duration !== 0)    
+        newPercent = this._currentTime / this._duration * 100;
+        
+        // if(this.$refs.prog.setPercent)  this.$refs.prog.setPercent(newPercent);
+        return newPercent;
     }
   },
   mounted() {
@@ -157,8 +174,8 @@ export default {
   border-top: 1px solid #f2f2f2;
   /* left: 0; */
   /* right: 0; */
-  bottom: 0;
-  height: 60px;
+  bottom: 0px;
+  height: 80px;
   background-color: #fff;
 }
 .audio .audio-avatar {

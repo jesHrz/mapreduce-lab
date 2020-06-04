@@ -21,6 +21,16 @@ const user = {
     },
     updateHistoryData(state, payload) {
       state.historyData = payload.history;
+      if (payload.history.length <= 15) {
+        const tmp = payload.history.map(x => {
+          return { name: x['_1'], value: x['_2'] }
+        })
+        payload.chart.drawPie(
+          'Statistic of ' + state.user,
+          tmp.map(x => x.name),
+          tmp
+        )
+      }
     }
   },
   getters: {
@@ -33,11 +43,12 @@ const user = {
         if (ret != 0) {
           context.commit("login", payload);
           Vue.prototype.$success("Generating recommendation...");
-          context.commit("updateRecommendData", { 
+          context.commit("updateRecommendData", {
             recommend: await get('/recommend?user=', 8080, payload.user)
           });
-          context.commit("updateHistoryData", { 
-            history: await get('/history?user=', 8080, payload.user)
+          context.commit("updateHistoryData", {
+            history: await get('/history?user=', 8080, payload.user),
+            chart: payload.$refs.chart
           });
           Vue.prototype.$success("Welcome back! " + payload.user);
         } else {

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import scala.App;
 import scala.Tuple2;
 import spark.Application;
 
@@ -16,9 +17,11 @@ import java.util.List;
 @CrossOrigin("http://localhost:8081")
 public class WebController {
     private Logger logger;
+    private List<Tuple2<String, Integer>> statisticOfArtist;
     public WebController() {
         logger = Logger.getLogger(WebController.class);
         logger.setLevel(Level.INFO);
+        this.statisticOfArtist = Application.rh.statisticOfArtist(50);
     }
 
     @GetMapping("/hello")
@@ -45,5 +48,12 @@ public class WebController {
     public List<Tuple2<String, Integer>> history(@RequestParam("user") int user) {
         logger.info("GET: /history?user=" + user);
         return Application.rh.history(user);
+    }
+
+    @GetMapping("/statistic")
+    @ResponseBody
+    public List<Tuple2<String, Integer>> statistic(@RequestParam("limit") int limit) {
+        logger.info("GET: /statistic?limit=" + limit);
+        return statisticOfArtist;
     }
 }

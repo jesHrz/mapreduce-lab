@@ -15,6 +15,11 @@ const routes = [
         name: 'search',
         component: () => import('@/views/Search.vue')
     },
+    {
+        path: '/artist',
+        name: 'artist',
+        component: () => import('@/views/Artist.vue')
+    }
 ]
 
 const router = new Router({

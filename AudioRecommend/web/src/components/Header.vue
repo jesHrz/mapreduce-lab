@@ -3,13 +3,14 @@
     <ul class="nav">
             <li>
               <router-link to="/" v-if="user === -1">
-                主页
+                Home
               </router-link>
               <router-link to="/" v-else>
                 {{ user }}
               </router-link>
             </li>
-            <li><router-link to="/search">搜索</router-link> </li>
+            <li><router-link to="/search">Search</router-link> </li>
+            <li><router-link to="/artist">Statistic</router-link> </li>
     </ul>
   </div>
 </template>

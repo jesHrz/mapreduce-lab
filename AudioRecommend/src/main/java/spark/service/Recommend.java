@@ -257,4 +257,39 @@ public class Recommend {
         }
         return queryUser;
     }
+    public static class MyPair implements Serializable {
+        private int artist;
+        private int sum;
+
+        MyPair() {}
+        MyPair(int artist, int sum) { this.artist = artist; this.sum = sum; }
+
+        public int getArtist() { return artist; }
+        public int getSum() { return sum; }
+    };
+
+    public List<Tuple2<String, Integer>> statisticOfArtist(int limit) {
+
+        logger.info("statistic of artist... " + limit);
+        JavaRDD<MyPair> res = userData.toJavaRDD().mapToPair(row -> {
+            Rating rat = Rating.parseRating(row);
+            return new Tuple2<>(rat.artist, rat.count);
+        }).reduceByKey(Integer::sum).map(line -> new MyPair(line._1(), line._2()));
+        Dataset<Row> tmp = sc.createDataFrame(res, MyPair.class).orderBy(new Column("sum").desc()).limit(limit);
+        tmp.show();
+        List<Row> tmp2 = artistId.join(tmp, "artist").select("name", "sum").collectAsList();
+        List<Tuple2<String, Integer>> ret = new ArrayList<>();
+        for(Row row:tmp2) {
+            String[] split = row.toString().split(",");
+            String name = "";
+            for(int i = 0; i < split.length - 1; ++i) {
+                if(i == 0)  name += split[i].substring(1);
+                else name += split[i];
+            }
+            Integer count = Integer.parseInt(split[split.length - 1].substring(0, split[split.length - 1].length() - 1));
+            ret.add(new Tuple2<>(name, count));
+        }
+        return ret;
+    }
+
 }

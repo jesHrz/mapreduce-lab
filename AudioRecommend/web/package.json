@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "echarts": "^4.8.0",
     "element-ui": "^2.13.2",
+    "sass-loader": "^8.0.2",
     "view-design": "^4.2.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

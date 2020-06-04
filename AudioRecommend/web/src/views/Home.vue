@@ -14,6 +14,11 @@
 
     <div>
       <div class="tip">You have listened to the songs of {{ historyData.length }} artists</div>
+      <Chart
+        v-if="historyData.length <= 15"
+        ref="chart"
+        :chartStyle="'margin: 20px; width: 600px; height: 400px;'"
+      ></Chart>
       <PlayList :data="historyData"></PlayList>
     </div>
   </div>
@@ -23,26 +28,39 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "element-ui";
 import PlayList from "@/components/PlayList.vue";
+import Chart from "@/components/Chart.vue";
 export default {
   name: "Home",
-  components: {PlayList},
+  components: { PlayList, Chart },
   data() {
     return {
       user: "",
-      loading: false,
+      loading: false
     };
   },
   methods: {
-    ...mapActions('user', ['login']),
+    ...mapActions("user", ["login"]),
     entry() {
       this.loading = Loading.service();
       this.login(this);
       // this.$store.dispatch("login", this);
     }
   },
+  mounted() {
+      if(this.historyData.length > 0 && this.historyData.length <= 15) {
+        const tmp = this.historyData.map(x => {
+          return { name: x['_1'], value: x['_2'] }
+        })
+        this.$refs.chart.drawPie(
+            'Statistic of ' + this.user,
+            tmp.map(x => x.name),
+            tmp
+        )
+      }
+  },
   computed: {
-    ...mapState('user', ["recommendData", "historyData"]),
-    ...mapGetters('user', ['currentUser']),
+    ...mapState("user", ["recommendData", "historyData"]),
+    ...mapGetters("user", ["currentUser"])
   }
 };
 </script>
