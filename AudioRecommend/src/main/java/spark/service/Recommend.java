@@ -246,8 +246,13 @@ public class Recommend {
         List<Tuple2<String, Integer>> queryUser = new ArrayList<>();
         for(Row row : rowOfQueryUser) {
             String[] split = row.toString().split(",");
-            String name = split[0].substring(1);
-            Integer count = Integer.parseInt(split[1].substring(0, split[1].length() - 1));
+            String name = "";
+            for(int i = 0; i < split.length - 1; ++i) {
+                if(i == 0)  name += split[i].substring(1);
+                else name += split[i];
+            }
+//            String name = split[0].substring(1);
+            Integer count = Integer.parseInt(split[split.length - 1].substring(0, split[split.length - 1].length() - 1));
             queryUser.add(new Tuple2<>(name, count));
         }
         return queryUser;
