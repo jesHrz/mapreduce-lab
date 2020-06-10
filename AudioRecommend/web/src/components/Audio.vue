@@ -223,7 +223,7 @@ export default {
   -webkit-animation: showList 1s;
   width: 700px;
   height: 60vh;
-  bottom: 60px;
+  bottom: 75px;
   background: #fff;
   border-top: 1px solid #42b983;
 }

@@ -1,6 +1,7 @@
 <template>
   <div>
     <button
+      type="text"
       :class="showChart ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"
       style="float: right;"
       @click="showChart=!showChart"

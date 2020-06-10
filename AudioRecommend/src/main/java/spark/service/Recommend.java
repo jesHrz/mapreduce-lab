@@ -165,6 +165,7 @@ public class Recommend {
             return new Rating(user, artist, count);
         });
         userData = sc.createDataFrame(tmpUserDataRDD, Rating.class);
+        userData.show();
         return this;
     }
 
